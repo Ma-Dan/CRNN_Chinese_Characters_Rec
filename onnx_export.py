@@ -77,12 +77,12 @@ if __name__ == '__main__':
     if False:
         #Static input shape
         dummy_input = torch.randn(1, 1, 32, 168, device='cpu')
-        torch.onnx.export(model, dummy_input, "crnn-static.onnx", verbose=True)
+        torch.onnx.export(model, dummy_input, "crnn-static.onnx", verbose=True, export_params=True, keep_initializers_as_inputs=True, opset_version=11)
     else:
         #Dynamic input/output shape
         dummy_input = torch.zeros(1, 1, 32, 168, device='cpu')
         inputs = ['images']
         outputs = ['preds']
         dynamic_axes = {'images': {3: 'width'}, 'preds': {0: 'length'}}
-        torch.onnx.export(model, dummy_input, 'crnn.onnx', input_names=inputs, output_names=outputs, dynamic_axes=dynamic_axes)
+        torch.onnx.export(model, dummy_input, 'crnn.onnx', input_names=inputs, output_names=outputs, dynamic_axes=dynamic_axes, export_params=True, keep_initializers_as_inputs=True, opset_version=11)
 
